@@ -11,7 +11,7 @@
     <style>
         /* Custom styles can be added here */
         body {
-            background-image: url('background-image.jpg'); /* Replace 'background-image.jpg' with your image path */
+            background-color: green; /* Replace 'background-image.jpg' with your image path */
             background-size: cover;
             background-repeat: no-repeat;
             color: white; /* Text color on top of background */
@@ -35,12 +35,18 @@
             border-radius: 10px;
             background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background for chart canvas */
         }
+        .logout-btn {
+            float: right;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Account</h1>
-        <h1>Welcome, <span id="userName"></span>!</h1>
+        <div class="container">
+            <h1>Account</h1>
+            <h1>Welcome, <span id="userName"></span>!</h1>
+            <button onclick="login" class="btn btn-danger logout-btn">Logout</button><br> <!-- Logout button -->        
+        </div>
         <form id="expenseForm">
             <div class="form-group">
                 <label for="income">Monthly Income:</label>

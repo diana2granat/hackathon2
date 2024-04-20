@@ -95,8 +95,13 @@ function renderChart(userId) {
                 },
                 options: {
                     scales: {
+                        x: {
+                            type: 'category', // Ensure x-axis is treated as a category scale
+                            max: 'December', // Set the maximum value for the x-axis
+                            beginAtZero: true // Optionally, begin the scale at zero
+                        },
                         y: {
-                            beginAtZero: true
+                            beginAtZero: true // Begin y-axis scale at zero
                         }
                     }
                 }
@@ -106,4 +111,4 @@ function renderChart(userId) {
 }
 
 // Call the function to fetch and display user's name when the page loads
-fetchAndDisplayUserName();
+// fetchAndDisplayUserName();

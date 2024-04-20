@@ -10,13 +10,21 @@ const db = require('../config/database');
 
 
 // Add a middleware to check if the user is authenticated
-const isAuthenticated = (req, res, next) => {
-    if (req.session && req.session.user) {
-        // User is authenticated, proceed to the next middleware/route handler
-        return next();
-    } else {
-        // User is not authenticated, send a 401 Unauthorized response
+const isAuthenticated = async (req, res, next) => {
+    try {
+        if (req.session && req.session.user) {
+            // Check if the user exists in the database
+            const user = await db('users').where('id', req.session.user.id).first();
+            if (user) {
+                // User is authenticated and exists in the database, proceed to the next middleware/route handler
+                return next();
+            }
+        }
+        // If session or user not found or user doesn't exist in the database, send a 401 Unauthorized response
         res.status(401).json({ message: 'Unauthorized' });
+    } catch (error) {
+        console.error('Error checking authentication:', error);
+        res.status(500).json({ message: 'Internal Server Error' });
     }
 };
 
