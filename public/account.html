@@ -4,54 +4,91 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Account</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <!-- Include Chart.js library -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Custom styles can be added here */
+        body {
+            background-image: url('background-image.jpg'); /* Replace 'background-image.jpg' with your image path */
+            background-size: cover;
+            background-repeat: no-repeat;
+            color: white; /* Text color on top of background */
+        }
+        .container {
+            padding: 20px;
+        }
+        h1 {
+            margin-top: 20px;
+        }
+        form {
+            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background for form */
+            padding: 20px;
+            border-radius: 10px;
+        }
+        label {
+            color: white;
+        }
+        canvas {
+            margin-top: 20px;
+            border-radius: 10px;
+            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background for chart canvas */
+        }
+    </style>
 </head>
 <body>
-    <h1>Account</h1>
-    <form id="expenseForm">
-        <label for="income">Monthly Income:</label>
-        <input type="number" id="income" name="income" required><br>
+    <div class="container">
+        <h1>Account</h1>
+        <h1>Welcome, <span id="userName"></span>!</h1>
+        <form id="expenseForm">
+            <div class="form-group">
+                <label for="income">Monthly Income:</label>
+                <input type="number" id="income" name="income" class="form-control" required>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="expense1">Expense January:</label>
+                    <input type="number" id="expense1" name="expense1" class="form-control">
+                    <label for="expense2">Expense February:</label>
+                    <input type="number" id="expense2" name="expense2" class="form-control">
+                    <label for="expense3">Expense March:</label>
+                    <input type="number" id="expense3" name="expense3" class="form-control">
+                    <label for="expense4">Expense April:</label>
+                    <input type="number" id="expense4" name="expense4" class="form-control">
+                </div>
+                <div class="col-md-6">
+                    <label for="expense5">Expense May:</label>
+                    <input type="number" id="expense5" name="expense5" class="form-control">
+                    <label for="expense6">Expense June:</label>
+                    <input type="number" id="expense6" name="expense6" class="form-control">
+                    <label for="expense7">Expense July:</label>
+                    <input type="number" id="expense7" name="expense7" class="form-control">
+                    <label for="expense8">Expense August:</label>
+                    <input type="number" id="expense8" name="expense8" class="form-control">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="expense9">Expense September:</label>
+                    <input type="number" id="expense9" name="expense9" class="form-control">
+                    <label for="expense10">Expense October:</label>
+                    <input type="number" id="expense10" name="expense10" class="form-control">
+                    <label for="expense11">Expense November:</label>
+                    <input type="number" id="expense11" name="expense11" class="form-control">
+                </div>
+                <div class="col-md-6">
+                    <label for="expense12">Expense December:</label>
+                    <input type="number" id="expense12" name="expense12" class="form-control">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary mt-3">Submit</button>
+        </form>
+        <canvas id="myChart" class="mt-4"></canvas> <!-- Added margin top for chart -->
+    </div>
 
-        <label for="expense1">Expense January:</label>
-        <input type="number" id="expense1" name="expense1"><br>
-
-        <label for="expense2">Expense February:</label>
-        <input type="number" id="expense2" name="expense2"><br>
-
-        <label for="expense3">Expense March:</label>
-        <input type="number" id="expense3" name="expense3"><br>
-
-        <label for="expense4">Expense April:</label>
-        <input type="number" id="expense4" name="expense4"><br>
-
-        <label for="expense5">Expense May:</label>
-        <input type="number" id="expense5" name="expense5"><br>
-
-        <label for="expense6">Expense June:</label>
-        <input type="number" id="expense6" name="expense6"><br>
-
-        <label for="expense7">Expense July:</label>
-        <input type="number" id="expense7" name="expense7"><br>
-
-        <label for="expense8">Expense August:</label>
-        <input type="number" id="expense8" name="expense8"><br>
-
-        <label for="expense9">Expense September:</label>
-        <input type="number" id="expense9" name="expense9"><br>
-
-        <label for="expense10">Expense October:</label>
-        <input type="number" id="expense10" name="expense10"><br>
-
-        <label for="expense11">Expense November:</label>
-        <input type="number" id="expense11" name="expense11"><br>
-
-        <label for="expense12">Expense December:</label>
-        <input type="number" id="expense12" name="expense12"><br>
-
-        <button type="submit">Submit</button>
-    </form>
-    <canvas id="myChart"></canvas>
+    <!-- Bootstrap JS (Optional, for certain components) -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="chart.js"></script>
 </body>
 </html>

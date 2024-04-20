@@ -1,14 +1,24 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
-// const fs = require('fs');
-// const path = require('path');
 const { body, validationResult } = require('express-validator');
 const bodyParser = require('body-parser');
 router.use(bodyParser.json());
 
 // Import the db object
 const db = require('../config/database');
+
+
+// Add a middleware to check if the user is authenticated
+const isAuthenticated = (req, res, next) => {
+    if (req.session && req.session.user) {
+        // User is authenticated, proceed to the next middleware/route handler
+        return next();
+    } else {
+        // User is not authenticated, send a 401 Unauthorized response
+        res.status(401).json({ message: 'Unauthorized' });
+    }
+};
 
 // POST /register: Allow users to register by providing a username and password. 
 router.post('/register', [
@@ -44,8 +54,9 @@ router.post('/register', [
             password: hashedPassword
         }).returning('*');
 
-        // res.status(201).json({ message: 'User registered successfully', user: newUser[0] });
         // Redirect user to account.html after successful registration
+        // Set user session
+        req.session.user = newUser[0]; // Assuming newUser[0] contains user information
         res.redirect('/account.html');
 
     } catch (error) {
@@ -54,7 +65,9 @@ router.post('/register', [
     }
 });
 
-router.post('/login', [
+
+// POST /login: Allow users to login by providing a username and password. 
+router.post('/login', isAuthenticated, [
     body('username').notEmpty().withMessage('Username is required'),
     body('password').notEmpty().withMessage('Password is required')
     ], async (req, res) => {
@@ -79,14 +92,56 @@ router.post('/login', [
         }
 
         // If passwords match, login successful
-        // res.json({ message: 'Login successful', user: { username: user.username } });
-        // Redirect user to account.html after successful registration
+        // Redirect user to account.html
+        // Set user session
+        req.session.user = user; // Assuming 'user' contains user information
         res.redirect('/account.html');
+        
     } catch (error) {
         console.error('Error logging in:', error);
         res.status(500).json({ message: 'Internal Server Error' });
     }
 });
 
+// POST /saveExpenses: Save user's expenses to the database
+router.post('/saveExpenses', isAuthenticated, async (req, res) => {
+    try {
+        const { expenses, savings, totalSavings } = req.body;
+        const userId = req.session.user.id; // Assuming user ID is stored in req.session.user
+
+        // Check if the user already has expense records for the current year
+        const existingExpenses = await db('user_expenses').where('user_id', userId).andWhere('year', new Date().getFullYear());
+
+        if (existingExpenses.length === 0) {
+            // If the user does not have expense records for the current year, insert new records
+            await Promise.all(expenses.map(async (expense, index) => {
+                const savingAmount = savings && savings[index] !== undefined ? savings[index] : null;
+                await db('user_expenses').insert({
+                    user_id: userId,
+                    month: index + 1, // Assuming index starts from 0 and represents months
+                    year: new Date().getFullYear(),
+                    expense_amount: expense,
+                    savings_amount: savingAmount,
+                    total_savings: totalSavings
+                });
+            }));
+        } else {
+            // If the user already has expense records for the current year, update existing records
+            await Promise.all(existingExpenses.map(async (record, index) => {
+                const savingAmount = savings && savings[index] !== undefined ? savings[index] : null;
+                await db('user_expenses').where('id', record.id).update({
+                    expense_amount: expenses[index],
+                    savings_amount: savingAmount,
+                    total_savings: totalSavings
+                });
+            }));
+        }
+
+        res.status(200).json({ message: 'Expenses saved successfully' });
+    } catch (error) {
+        console.error('Error saving expenses:', error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+});
 
 module.exports = router;
