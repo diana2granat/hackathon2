@@ -152,4 +152,24 @@ router.post('/saveExpenses', isAuthenticated, async (req, res) => {
     }
 });
 
+// GET /user: Fetch user's data
+router.get('usersbase/user', isAuthenticated, async (req, res) => {
+    try {
+        const userId = req.session.user.id; // Assuming user ID is stored in req.session.user
+
+        // Retrieve user's data from the database
+        const userData = await db('users').select('name').where('id', userId).first();
+
+        if (!userData) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        // Respond with user's data
+        res.json(userData);
+    } catch (error) {
+        console.error('Error fetching user data:', error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+});
+
 module.exports = router;

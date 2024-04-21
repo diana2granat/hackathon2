@@ -9,7 +9,6 @@ function fetchAndDisplayUserName() {
         .then(data => {
             // Update HTML content with user's name
             document.getElementById('userName').textContent = data.name;
-
             // Now that the user's name is displayed, render the chart
             renderChart(data.userId); // Pass userId to renderChart function
         })
@@ -111,4 +110,4 @@ function renderChart(userId) {
 }
 
 // Call the function to fetch and display user's name when the page loads
-// fetchAndDisplayUserName();
+fetchAndDisplayUserName();
