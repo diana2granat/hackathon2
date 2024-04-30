@@ -1,0 +1,17 @@
+Student: Diana Granat, Ruben Linares
+Project: Budget Management
+
+- The project demonstrates proficiency in setting up a basic Express server with routing and handling POST requests.
+- Notably, the use of bcrypt for password hashing and validation is a strong security measure.
+- However, consider incorporating frontend validation for a better user experience and error handling.
+- Additionally, while the backend functionality is implemented, showcasing the frontend would provide a more comprehensive view of the project.
+
+Express Server Setup: 8/10
+Routing and Middleware: 7/10
+Security (bcrypt): 9/10
+Frontend Validation: 6/10
+
+Overall: 7.5/10
+
+In your uploaded video, only the code was demonstrated without showcasing the working frontend.
+Including the frontend would offer a complete perspective of the project's functionality and user interface. Consider providing access to the frontend in future submissions for a more comprehensive evaluation.
